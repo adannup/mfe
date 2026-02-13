@@ -11,7 +11,7 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
-    // publicPath: "/container/latest/", // refers to the route of the S3 path where files is stored
+    publicPath: "/container/latest/", // refers to the route of the S3 path where files is stored
   },
   plugins: [
     new ModuleFederationPlugin({
