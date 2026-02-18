@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-const MicroFrontend = ({ mount }) => {
+const MicroFrontend = ({ mount, onSignIn = null }) => {
   const ref = useRef(null);
   const history = useHistory();
 
@@ -9,6 +9,7 @@ const MicroFrontend = ({ mount }) => {
     if (!mount || !ref.current) return;
 
     const { onParentNavigate, unmount } = mount(ref.current, {
+      onSignIn,
       onNavigate: ({ pathname: nextPathname }) => {
         const { pathname } = history.location;
 

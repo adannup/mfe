@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import MicroFrontend from "./components/MicroFrontend";
 import Header from "./components/Header";
 import Progress from "./components/Progress";
@@ -20,18 +20,32 @@ const MarketingAppLazy = lazy(() =>
 
 const AuthAppLazy = lazy(() =>
   import("auth/AuthApp").then((module) => ({
-    default: () => <MicroFrontend mount={module.mount} name="auth" />,
+    default: (props) => (
+      <MicroFrontend mount={module.mount} name="auth" {...props} />
+    ),
   })),
 );
 
 const App = () => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   return (
     <BrowserRouter>
       <StylesProvider generateClassName={generateClassName}>
-        <Header />
+        <Header
+          isSignedIn={isSignedIn}
+          onSignOut={() => {
+            setIsSignedIn(false);
+          }}
+        />
         <Suspense fallback={<Progress />}>
           <Switch>
-            <Route path="/auth" component={AuthAppLazy} />
+            <Route path="/auth">
+              <AuthAppLazy
+                onSignIn={() => {
+                  setIsSignedIn(true);
+                }}
+              />
+            </Route>
             <Route path="/" component={MarketingAppLazy} />
           </Switch>
         </Suspense>
