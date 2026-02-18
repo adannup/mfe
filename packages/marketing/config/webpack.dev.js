@@ -7,6 +7,10 @@ const { ModuleFederationPlugin } = webpack.container;
 
 const devConfig = {
   mode: "development",
+  output: {
+    publicPath: "http://localhost:8081/",
+    // publicPath: "auto", // It automatically detects the URL based on the location of the remoteEntry.js file.
+  },
   devServer: {
     port: 8081,
     historyApiFallback: true, // by default redirects to /index.html

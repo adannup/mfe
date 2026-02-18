@@ -8,11 +8,11 @@ const { ModuleFederationPlugin } = webpack.container;
 const devConfig = {
   mode: "development",
   output: {
-    publicPath: "http://localhost:8080/",
+    publicPath: "http://localhost:8082/",
     // publicPath: "auto", // It automatically detects the URL based on the location of the remoteEntry.js file.
   },
   devServer: {
-    port: 8080,
+    port: 8082,
     historyApiFallback: true, // by default redirects to /index.html
     // historyApiFallback: {
     //   index: "/index.html",
@@ -20,10 +20,10 @@ const devConfig = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "container",
-      remotes: {
-        marketing: "marketing@http://localhost:8081/remoteEntry.js",
-        auth: "auth@http://localhost:8082/remoteEntry.js",
+      name: "auth",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./AuthApp": "./src/bootstrap.js",
       },
       shared: packageJson.dependencies,
       // shared: ["react", "react-dom"],

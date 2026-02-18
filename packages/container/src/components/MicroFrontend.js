@@ -1,12 +1,13 @@
-import { mount } from "marketing/MarketingApp";
 import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-const MarketingApp = () => {
+const MicroFrontend = ({ mount }) => {
   const ref = useRef(null);
   const history = useHistory();
 
   useEffect(() => {
+    if (!mount || !ref.current) return;
+
     const { onParentNavigate, unmount } = mount(ref.current, {
       onNavigate: ({ pathname: nextPathname }) => {
         const { pathname } = history.location;
@@ -16,6 +17,7 @@ const MarketingApp = () => {
           history.push(nextPathname);
         }
       },
+      initialPath: history.location.pathname,
     });
 
     const unlistenBrowser = history.listen((location) => {
@@ -26,9 +28,9 @@ const MarketingApp = () => {
       unlistenBrowser();
       unmount();
     };
-  }, []);
+  }, [mount, history]);
 
   return <div ref={ref}></div>;
 };
 
-export default MarketingApp;
+export default MicroFrontend;

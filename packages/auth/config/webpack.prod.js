@@ -11,14 +11,14 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
-    publicPath: "/container/latest/", // refers to the route of the S3 path where files is stored
+    publicPath: "/auth/latest/", // refers to the route of the S3 path where files is stored
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "container",
-      remotes: {
-        marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
-        auth: `auth@${domain}/auth/latest/remoteEntry.js`,
+      name: "auth",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./AuthApp": "./src/bootstrap.js",
       },
       shared: packageJson.dependencies,
     }),

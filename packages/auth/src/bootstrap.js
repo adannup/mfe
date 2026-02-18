@@ -30,7 +30,7 @@ const mount = (el, { onNavigate, defaultHistory, initialPath = "/" }) => {
 };
 
 if (process.env.NODE_ENV === "development") {
-  const devRoot = document.getElementById("_marketing-dev-root");
+  const devRoot = document.getElementById("_auth-dev-root");
 
   if (devRoot) {
     mount(devRoot, {
